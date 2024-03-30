@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  sql-server-dojo:
+    build: 
+      context: .
+      dockerfile: docker/DockerFile
+    ports:
+      - "2433:1433"
+    

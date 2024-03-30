@@ -1,0 +1,28 @@
+CREATE SCHEMA mydb
+GO
+
+USE [mydb]
+GO
+
+IF DB_ID('mydb') IS NOT NULL
+  set noexec on 
+
+CREATE DATABASE [mydb];
+GO
+
+
+CREATE LOGIN [myUser] WITH PASSWORD = 'user123!'
+GO
+
+CREATE USER [myUser] FOR LOGIN [myUser]
+GO
+
+USE [mydb]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER AUTHORIZATION ON DATABASE::mydb TO [myUser];

@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Elevate to root to install required packages
+USER root
+
+RUN apt-get update
+
+COPY ./docker/initdb.sql /tmp/db/initdb.sql
+
+# Configure external build arguments to allow configurability.
+ARG DBNAME=mydb
+ARG PASSWORD=APassword123$
+
+# Configure the required environmental variables
+ENV ACCEPT_EULA=Y
+ENV MSSQL_SA_PASSWORD=$PASSWORD
+
+#run the setup script to create the DB and the schema in the DB
+RUN ( /opt/mssql/bin/sqlservr & ) \
+    && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${PASSWORD} -d master -i /tmp/db/initdb.sql \ 
+    && rm -r /tmp/db \
+    && pkill sqlservr
