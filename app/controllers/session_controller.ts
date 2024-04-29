@@ -20,7 +20,7 @@ export default class SessionController {
      * Step 3: Login user
      */
     await auth.use('web').login(user)
-    response.redirect('/todos')
+    response.redirect('/')
   }
 
   async logout({ auth, response }: HttpContext) {
